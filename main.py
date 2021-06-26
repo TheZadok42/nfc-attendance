@@ -5,8 +5,10 @@ screen.setup()
 nfc = NFCWrapper()
 nfc.setup()
 
-screen.write("Started")
+screen.write("Press the tag")
 
-uid = nfc.get_uid(10)
+uid = None
+while uid is None:
+    uid = nfc.get_uid()
 
 screen.write(uid if uid else "Found nothing")
