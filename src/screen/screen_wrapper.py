@@ -53,6 +53,7 @@ class ScreenWrapper:
     def _text_font(self):
         return ImageFont.truetype(consts.TEXT_FONT, 8)
 
+    @staticmethod
     def _get_lines(text: str) -> List[str]:
         parsed_lines = list()
         base_lines = text.splitlines(False)
