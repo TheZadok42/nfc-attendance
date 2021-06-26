@@ -3,12 +3,11 @@ from __future__ import division
 import logging
 import time
 
-from . import I2C
 from . import SPI
 from . import GPIO
 
 # Constants
-SSD1305_I2C_ADDRESS = 0x3C    # 011110+SA0+RW - 0x3C or 0x3D
+SSD1305_I2C_ADDRESS = 0x3C  # 011110+SA0+RW - 0x3C or 0x3D
 SSD1305_SETCONTRAST = 0x81
 SSD1305_DISPLAYALLON_RESUME = 0xA4
 SSD1305_DISPLAYALLON = 0xA5
@@ -49,9 +48,18 @@ class SSD1305Base(object):
     """Base class for SSD1305-based OLED displays.  Implementors should subclass
     and provide an implementation for the _initialize function.
     """
-
-    def __init__(self, width, height, rst, dc=None, sclk=None, din=None, cs=None,
-                 gpio=None, spi=None, i2c_bus=None, i2c_address=SSD1305_I2C_ADDRESS,
+    def __init__(self,
+                 width,
+                 height,
+                 rst,
+                 dc=None,
+                 sclk=None,
+                 din=None,
+                 cs=None,
+                 gpio=None,
+                 spi=None,
+                 i2c_bus=None,
+                 i2c_address=SSD1305_I2C_ADDRESS,
                  i2c=None):
         self._log = logging.getLogger('Adafruit_SSD1305.SSD1305Base')
         self._spi = None
@@ -59,7 +67,7 @@ class SSD1305Base(object):
         self.width = width
         self.height = height
         self._pages = 4
-        self._buffer = [0]*(width*self._pages)
+        self._buffer = [0] * (width * self._pages)
         # Default to platform GPIO if not provided.
         self._gpio = gpio
         if self._gpio is None:
@@ -98,7 +106,7 @@ class SSD1305Base(object):
     def _initialize(self):
         raise NotImplementedError
 
-    def command(self,c):
+    def command(self, c):
         """Send self.command byte to display."""
         if self._spi is not None:
             # SPI write.
@@ -106,7 +114,7 @@ class SSD1305Base(object):
             self._spi.write([c])
         else:
             # I2C write.
-            control = 0x00   # Co = 0, DC = 0
+            control = 0x00  # Co = 0, DC = 0
             self._i2c.write8(control, c)
 
     def data(self, c):
@@ -117,7 +125,7 @@ class SSD1305Base(object):
             self._spi.write([c])
         else:
             # I2C write.
-            control = 0x40   # Co = 0, DC = 0
+            control = 0x40  # Co = 0, DC = 0
             self._i2c.write8(control, c)
 
     def begin(self, vccstate=SSD1305_SWITCHCAPVCC):
@@ -145,14 +153,14 @@ class SSD1305Base(object):
 
     def display(self):
         # """Write display buffer to physical display."""
-        for page in range(0,4):
+        for page in range(0, 4):
             self.command(0xb0 + page)
             self.command(0x04)
             self.command(0x10)
             self._gpio.set_high(self._dc)
-            for num in range(0,128):
-                self._spi.write([self._buffer[page*128+num]])
-        #         pass
+            for num in range(0, 128):
+                self._spi.write([self._buffer[page * 128 + num]])
+
     def image(self, image):
         """Set buffer to value of Python Imaging Library image.  The image should
         be in 1 bit mode and a size equal to the display size.
@@ -175,20 +183,21 @@ class SSD1305Base(object):
                 # Don't use range here as it's a bit slow
                 for bit in [0, 1, 2, 3, 4, 5, 6, 7]:
                     bits = bits << 1
-                    bits |= 0 if pix[(x, page*8+7-bit)] == 0 else 1
+                    bits |= 0 if pix[(x, page * 8 + 7 - bit)] == 0 else 1
                 # Update buffer byte and increment to next byte.
                 self._buffer[index] = bits
                 index += 1
 
     def clear(self):
         """Clear contents of image buffer."""
-        self._buffer = [0]*(self.width*self._pages)
+        self._buffer = [0] * (self.width * self._pages)
 
     def set_contrast(self, contrast):
         """Sets the contrast of the display.  Contrast should be a value between
         0 and 255."""
         if contrast < 0 or contrast > 255:
-            raise ValueError('Contrast must be a value from 0 to 255 (inclusive).')
+            raise ValueError(
+                'Contrast must be a value from 0 to 255 (inclusive).')
         self.self.command(SSD1305_SETCONTRAST)
         self.self.command(contrast)
 
@@ -204,36 +213,52 @@ class SSD1305Base(object):
                 contrast = 0x9F
             else:
                 contrast = 0xCF
+
+
 class SSD1305_128_32(SSD1305Base):
-    def __init__(self, rst, dc=None, sclk=None, din=None, cs=None, gpio=None,
-                 spi=None, i2c_bus=None, i2c_address=SSD1305_I2C_ADDRESS,
+    def __init__(self,
+                 rst,
+                 dc=None,
+                 sclk=None,
+                 din=None,
+                 cs=None,
+                 gpio=None,
+                 spi=None,
+                 i2c_bus=None,
+                 i2c_address=SSD1305_I2C_ADDRESS,
                  i2c=None):
         # Call base class constructor.
-        super(SSD1305_128_32, self).__init__(128, 32, rst, dc, sclk, din, cs,
-                                             gpio, spi, i2c_bus, i2c_address, i2c)
+        super(SSD1305_128_32,
+              self).__init__(128, 32, rst, dc, sclk, din, cs, gpio, spi,
+                             i2c_bus, i2c_address, i2c)
+
     def _initialize(self):
         # 128x32 pixel specific initialization.
-        self.command(0xAE)#--turn off oled panel
-        self.command(0x04)#--turn off oled panel	
-        self.command(0x10)#--turn off oled panel
-        self.command(0x40)#---set low column address
-        self.command(0x81)#---set high column address
-        self.command(0x80)#--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
-        self.command(0xA1)#--set contrast control register
-        self.command(0xA6)# Set SEG Output Current Brightness
-        self.command(0xA8)#--Set SEG/Column Mapping     0xa0×óÓÒ·´ÖÃ 0xa1Õý³£
-        self.command(0x1F)#Set COM/Row Scan Direction   0xc0ÉÏÏÂ·´ÖÃ 0xc8Õý³£
-        self.command(0xC8)#--set normal display
-        self.command(0xD3)#--set multiplex ratio(1 to 64)
-        self.command(0x00)#--1/64 duty
-        self.command(0xD5)#-set display offset	Shift Mapping RAM Counter (0x00~0x3F)
-        self.command(0xF0)#-not offset
-        self.command(0xd8)#--set display clock divide ratio/oscillator frequency
-        self.command(0x05)#--set divide ratio, Set Clock as 100 Frames/Sec
-        self.command(0xD9)#--set pre-charge period
-        self.command(0xC2)#Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
-        self.command(0xDA)#--set com pins hardware configuration
+        self.command(0xAE)  #--turn off oled panel
+        self.command(0x04)  #--turn off oled panel
+        self.command(0x10)  #--turn off oled panel
+        self.command(0x40)  #---set low column address
+        self.command(0x81)  #---set high column address
+        self.command(
+            0x80
+        )  #--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
+        self.command(0xA1)  #--set contrast control register
+        self.command(0xA6)  # Set SEG Output Current Brightness
+        self.command(0xA8)  #--Set SEG/Column Mapping     0xa0×óÓÒ·´ÖÃ 0xa1Õý³£
+        self.command(0x1F)  #Set COM/Row Scan Direction   0xc0ÉÏÏÂ·´ÖÃ 0xc8Õý³£
+        self.command(0xC8)  #--set normal display
+        self.command(0xD3)  #--set multiplex ratio(1 to 64)
+        self.command(0x00)  #--1/64 duty
+        self.command(
+            0xD5)  #-set display offset	Shift Mapping RAM Counter (0x00~0x3F)
+        self.command(0xF0)  #-not offset
+        self.command(
+            0xd8)  #--set display clock divide ratio/oscillator frequency
+        self.command(0x05)  #--set divide ratio, Set Clock as 100 Frames/Sec
+        self.command(0xD9)  #--set pre-charge period
+        self.command(0xC2)  #Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
+        self.command(0xDA)  #--set com pins hardware configuration
         self.command(0x12)
-        self.command(0xDB)#--set vcomh
-        self.command(0x08)#Set VCOM Deselect Level
-        self.command(0xAF)#-Set Page Addressing Mode (0x00/0x01/0x02)
+        self.command(0xDB)  #--set vcomh
+        self.command(0x08)  #Set VCOM Deselect Level
+        self.command(0xAF)  #-Set Page Addressing Mode (0x00/0x01/0x02)
