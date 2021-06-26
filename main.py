@@ -1,4 +1,3 @@
-from os import path
 import pathlib
 
 from PIL import Image, ImageDraw, ImageFont
