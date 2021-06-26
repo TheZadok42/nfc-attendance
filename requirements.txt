@@ -5,3 +5,4 @@ RPi.GPIO
 spidev
 pydantic
 cysystemd
+serial

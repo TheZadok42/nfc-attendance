@@ -1,7 +1,9 @@
+import time
 from typing import List
+
 from libs.screen import SPI, SSD1305
-from src import consts
 from PIL import Image, ImageDraw, ImageFont
+from src import consts
 
 # Raspberry Pi pin configuration:
 RST = None  # on the PiOLED this pin isnt used
@@ -39,6 +41,7 @@ class ScreenWrapper:
         self._connector.clear()
         self._connector.image(image)
         self._connector.display()
+        time.sleep(0.1)
 
     @property
     def _base_image(self):
