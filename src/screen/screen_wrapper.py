@@ -51,7 +51,7 @@ class ScreenWrapper:
 
     @property
     def _text_font(self):
-        return ImageFont.truetype(str(consts.TEXT_FONT_PATH), 8)
+        return ImageFont.truetype(str(consts.TEXT_FONT_PATH), 12)
 
     @staticmethod
     def _get_lines(text: str) -> List[str]:
