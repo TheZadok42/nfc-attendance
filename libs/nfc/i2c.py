@@ -23,7 +23,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 """
 This module will let you communicate with a PN532 RFID/NFC chip
 using I2C on the Raspberry Pi.
@@ -37,11 +36,11 @@ from .pn532 import PN532, BusyError
 
 # pylint: disable=bad-whitespace
 # PN532 address without R/W bit, i.e. (0x48 >> 1)
-I2C_ADDRESS                    = 0x24
-I2C_CHANNEL                    = 1
+I2C_ADDRESS = 0x24
+I2C_CHANNEL = 1
 
 # ctypes defines for i2c, see <linux/i2c-dev.h>
-I2C_SLAVE                      = 1795
+I2C_SLAVE = 1795
 
 
 class I2CDevice:
@@ -106,7 +105,7 @@ class PN532_I2C(PN532):
         GPIO.output(pin, True)
         time.sleep(0.1)
 
-    def _wakeup(self): # pylint: disable=no-self-use
+    def _wakeup(self):  # pylint: disable=no-self-use
         """Send any special commands/data to wake up PN532"""
         if self._req:
             GPIO.output(self._req, True)
@@ -118,7 +117,7 @@ class PN532_I2C(PN532):
 
     def _wait_ready(self, timeout=10):
         """Poll PN532 if status byte is ready, up to `timeout` seconds"""
-        time.sleep(0.01) # required after _wait_ready()
+        time.sleep(0.01)  # required after _wait_ready()
         status = bytearray(1)
         timestamp = time.monotonic()
         while (time.monotonic() - timestamp) < timeout:
@@ -137,9 +136,9 @@ class PN532_I2C(PN532):
         """Read a specified count of bytes from the PN532."""
         try:
             status = self._i2c.read(1)[0]
-            if status != 0x01:             # not ready
+            if status != 0x01:  # not ready
                 raise BusyError
-            frame = bytes(self._i2c.read(count+1))
+            frame = bytes(self._i2c.read(count + 1))
         except OSError as err:
             if self.debug:
                 print(err)
@@ -149,7 +148,7 @@ class PN532_I2C(PN532):
             print("Reading: ", [hex(i) for i in frame[1:]])
         else:
             time.sleep(0.1)
-        return frame[1:]   # don't return the status byte
+        return frame[1:]  # don't return the status byte
 
     def _write_data(self, framebytes):
         """Write a specified count of bytes to the PN532"""

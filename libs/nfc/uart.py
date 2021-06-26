@@ -23,30 +23,31 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 """
 This module will let you communicate with a PN532 RFID/NFC chip
 using UART (ttyS0) on the Raspberry Pi.
 """
-
 
 import time
 import serial
 import RPi.GPIO as GPIO
 from .pn532 import PN532, BusyError
 
-
 # pylint: disable=bad-whitespace
-DEV_SERIAL          = '/dev/ttyS0'
-BAUD_RATE           = 115200
+DEV_SERIAL = '/dev/ttyS0'
+BAUD_RATE = 115200
 
 
 class PN532_UART(PN532):
     """Driver for the PN532 connected over UART. Pass in a hardware UART device.
     Optional IRQ pin (not used), reset pin and debugging output. 
     """
-    def __init__(self, dev=DEV_SERIAL, baudrate=BAUD_RATE,
-                irq=None, reset=None, debug=False):
+    def __init__(self,
+                 dev=DEV_SERIAL,
+                 baudrate=BAUD_RATE,
+                 irq=None,
+                 reset=None,
+                 debug=False):
         """Create an instance of the PN532 class using UART
         before running __init__, you should
         1.  disable serial login shell
@@ -61,7 +62,7 @@ class PN532_UART(PN532):
             raise RuntimeError('cannot open {0}'.format(dev))
         super().__init__(debug=debug, reset=reset)
 
-    def _gpio_init(self, reset=None,irq=None):
+    def _gpio_init(self, reset=None, irq=None):
         self._irq = irq
         GPIO.setmode(GPIO.BCM)
         if reset:
@@ -81,7 +82,9 @@ class PN532_UART(PN532):
 
     def _wakeup(self):
         """Send any special commands/data to wake up PN532"""
-        self._uart.write(b'\x55\x55\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00') # wake up!
+        self._uart.write(
+            b'\x55\x55\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+        )  # wake up!
         self.SAM_configuration()
 
     def _wait_ready(self, timeout=0.001):
@@ -108,5 +111,5 @@ class PN532_UART(PN532):
 
     def _write_data(self, framebytes):
         """Write a specified count of bytes to the PN532"""
-        self._uart.read(self._uart.in_waiting)    # clear FIFO queue of UART
+        self._uart.read(self._uart.in_waiting)  # clear FIFO queue of UART
         self._uart.write(framebytes)

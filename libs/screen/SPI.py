@@ -24,14 +24,12 @@ import time
 
 from . import GPIO
 
-
 MSBFIRST = 0
 LSBFIRST = 1
 
 
 class SpiDev(object):
     """Hardware-based SPI implementation using the spidev interface."""
-
     def __init__(self, port, device, max_speed_hz=500000):
         """Initialize an SPI device using the SPIdev interface.  Port and device
         identify the device, for example the device /dev/spidev1.0 would be port
@@ -40,7 +38,7 @@ class SpiDev(object):
         import spidev
         self._device = spidev.SpiDev()
         self._device.open(port, device)
-        self._device.max_speed_hz=max_speed_hz
+        self._device.max_speed_hz = max_speed_hz
         # Default to mode 0, and make sure CS is active low.
         self._device.mode = 0
         # self._device.cshigh = False
@@ -49,7 +47,7 @@ class SpiDev(object):
         """Set the speed of the SPI clock in hertz.  Note that not all speeds
         are supported and a lower speed might be chosen by the hardware.
         """
-        self._device.max_speed_hz=hz
+        self._device.max_speed_hz = hz
 
     def set_mode(self, mode):
         """Set SPI mode which controls clock polarity and phase.  Should be a
@@ -95,20 +93,21 @@ class SpiDev(object):
         """
         return bytearray(self._device.xfer2(data))
 
+
 class SpiDevMraa(object):
     """Hardware SPI implementation with the mraa library on Minnowboard"""
     def __init__(self, port, device, max_speed_hz=500000):
         import mraa
         self._device = mraa.Spi(0)
         self._device.mode(0)
-        
+
     def set_clock_hz(self, hz):
         """Set the speed of the SPI clock in hertz.  Note that not all speeds
         are supported and a lower speed might be chosen by the hardware.
         """
         self._device.frequency(hz)
 
-    def set_mode(self,mode):
+    def set_mode(self, mode):
         """Set SPI mode which controls clock polarity and phase.  Should be a
         numeric value 0, 1, 2, or 3.  See wikipedia page for details on meaning:
         http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus
@@ -128,7 +127,7 @@ class SpiDevMraa(object):
             self._device.lsbmode(True)
         else:
             raise ValueError('Order must be MSBFIRST or LSBFIRST.')
-        
+
     def close(self):
         """Close communication with the SPI device."""
         self._device.Spi()
@@ -139,9 +138,9 @@ class SpiDevMraa(object):
         """
         self._device.write(bytearray(data))
 
+
 class BitBang(object):
     """Software-based implementation of the SPI protocol over GPIO pins."""
-
     def __init__(self, gpio, sclk, mosi=None, miso=None, ss=None):
         """Initialize bit bang (or software) based SPI.  Must provide a BaseGPIO
         class, the SPI clock, and optionally MOSI, MISO, and SS (slave select)
