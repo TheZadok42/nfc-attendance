@@ -1,5 +1,12 @@
-from src.screen.screen_wrapper import ScreenWrapper
+from src.wrappers import ScreenWrapper, NFCWrapper
 
 screen = ScreenWrapper()
 screen.setup()
-screen.write("Test")
+nfc = NFCWrapper()
+nfc.setup()
+
+screen.write("Started")
+
+uid = nfc.get_uid()
+
+screen.write(uid)
