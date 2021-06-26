@@ -7,6 +7,6 @@ nfc.setup()
 
 screen.write("Started")
 
-uid = nfc.get_uid()
+uid = nfc.get_uid(10)
 
 screen.write(uid if uid else "Found nothing")
