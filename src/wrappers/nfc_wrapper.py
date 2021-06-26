@@ -13,4 +13,4 @@ class NFCWrapper:
 
     def get_uid(self):
         uid = self._connector.read_passive_target()
-        return binascii.hexlify(uid)
+        return binascii.hexlify(uid).decode("utf-8")
