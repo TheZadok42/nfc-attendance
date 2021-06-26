@@ -1,0 +1,7 @@
+git+https://github.com/TheZadok42/bluetooth_server.git
+pillow
+numpy
+RPi.GPIO
+spidev
+pydantic
+cysystemd
