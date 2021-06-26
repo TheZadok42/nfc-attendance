@@ -1,3 +1,5 @@
+import binascii
+
 from libs.nfc import PN532_SPI
 
 
@@ -11,4 +13,4 @@ class NFCWrapper:
 
     def get_uid(self):
         uid = self._connector.read_passive_target()
-        return "".join(hex(item) for item in uid)
+        return binascii.hexlify(uid)

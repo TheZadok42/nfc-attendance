@@ -75,6 +75,7 @@ class ScreenWrapper:
                   draw_image: ImageDraw.ImageDraw,
                   line: str,
                   line_index: int = 0):
+        print(f"{line=}")
         draw_image.text((0, 8 * line_index),
                         line,
                         font=self._text_font,
