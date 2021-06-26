@@ -1,8 +1,9 @@
 from src.wrappers import ScreenWrapper, NFCWrapper
 
 screen = ScreenWrapper()
-screen.setup()
 nfc = NFCWrapper()
+
+screen.setup()
 nfc.setup()
 
 screen.write("Press the tag")
