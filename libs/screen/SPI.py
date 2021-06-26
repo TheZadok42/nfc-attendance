@@ -22,7 +22,7 @@
 import operator
 import time
 
-import GPIO
+from . import GPIO
 
 
 MSBFIRST = 0
