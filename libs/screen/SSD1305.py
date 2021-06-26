@@ -3,9 +3,9 @@ from __future__ import division
 import logging
 import time
 
-import I2C
-import SPI
-import GPIO
+from . import I2C
+from . import SPI
+from . import GPIO
 
 # Constants
 SSD1305_I2C_ADDRESS = 0x3C    # 011110+SA0+RW - 0x3C or 0x3D

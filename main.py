@@ -3,7 +3,7 @@ import pathlib
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .libs.screen import SPI, SSD1305
+from libs.screen import SPI, SSD1305
 
 ROOT = pathlib.Path(__file__).absolute().parent
 FONTS_DIR = ROOT.joinpath("../assets/fonts")
