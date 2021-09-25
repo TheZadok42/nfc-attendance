@@ -2,15 +2,16 @@ from sqlalchemy import (Column, DateTime, ForeignKey, Integer, MetaData,
                         String, Table, create_engine)
 from sqlalchemy.sql import func
 
-engine = create_engine('sqlite://./test.db', echo=True)
+engine = create_engine('sqlite:///./test.db', echo=True)
 metadata = MetaData(bind=engine)
 
 events = Table(
     'events',
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
+    # TODO: unique constarint
     Column('name', String, nullable=False),
-    Column('start', DateTime, server_default=func.now()),
+    Column('start', DateTime, nullable=False, server_default=func.now()),
     Column('end', DateTime),
 )
 

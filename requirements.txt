@@ -1,4 +1,5 @@
-git+https://github.com/TheZadok42/bluetooth_server.git
+fastapi
+uvicorn[all]
 pillow
 numpy
 RPi.GPIO
