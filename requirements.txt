@@ -1,10 +1,7 @@
-fastapi
-uvicorn[all]
+httpx
 pillow
 numpy
 RPi.GPIO
 spidev
-pydantic
 cysystemd
 serial
-SQLAlchemy
