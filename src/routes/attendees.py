@@ -23,6 +23,7 @@ def _get_nfc_tag_uid():
     uid = nfc.get_uid()
     while uid is None:
         uid = nfc.get_uid()
+    return uid
 
 
 def _get_nfc_tag_record(uid: str) -> NFCCard:
