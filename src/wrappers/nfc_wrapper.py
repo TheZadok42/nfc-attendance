@@ -13,7 +13,7 @@ class NFCWrapper:
         self._connector = PN532_SPI(4, reset=20)
         self._connector.SAM_configuration()
 
-    def get_uid(self, timeout: int = 100) -> Optional[str]:
+    def get_uid(self, timeout: int = 1) -> Optional[str]:
         uid = self._connector.read_passive_target(timeout=timeout)
         return binascii.hexlify(uid).decode("utf-8") if uid else None
 

@@ -16,7 +16,11 @@ nfc.setup()
 
 def _get_nfc_tag(attendee: BaseAttendee):
     screen.write(f'Register {attendee.first_name}\'s nfc card')
-    return nfc.get_uid()
+    uid = nfc.get_uid()
+    while uid is None:
+        uid = nfc.get_uid()
+    screen.write(f'{attendee.first_name} nfc card\'s id is {uid}')
+    return uid
 
 
 def _handle_new_attendees(new_attendees: List[BaseAttendee]):
