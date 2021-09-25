@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseAttendee(BaseModel):
@@ -12,6 +12,12 @@ class BaseAttendee(BaseModel):
 
 class Attendee(BaseAttendee):
     nfc_id: str
+    active: bool = Field(True)
+
+
+class NFCCard(BaseModel):
+    id: int
+    uid: str
 
 
 class BaseEvent(BaseModel):
