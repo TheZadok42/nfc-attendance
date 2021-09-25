@@ -17,8 +17,6 @@ nfc.setup()
 
 # TODO: attendees
 # 1. Better setup
-# 2. NFC table with active / not active
-# 3. Remove nfc from employee
 
 
 def _get_nfc_tag_uid():
