@@ -29,7 +29,6 @@ async def user_wait_loop(nfc: NFCWrapper, screen: ScreenWrapper):
 
 
 async def main():
-    global RUNNING
     screen = ScreenWrapper()
     nfc = NFCWrapper()
 
