@@ -10,6 +10,9 @@ router = APIRouter(tags=['attendees'])
 screen = ScreenWrapper()
 nfc = NFCWrapper()
 
+screen.setup()
+nfc.setup()
+
 
 def _get_nfc_tag(attendee: BaseAttendee):
     screen.write(f'Register {attendee.first_name}\'s nfc card')
