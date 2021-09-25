@@ -1,5 +1,3 @@
-import asyncio
-
 import httpx
 
 from wrappers import NFCWrapper, ScreenWrapper
@@ -29,12 +27,10 @@ async def user_wait_loop(nfc: NFCWrapper, screen: ScreenWrapper):
         screen.write('Successfully Registered Attendance')
 
 
-def main():
+async def main():
     global RUNNING
     screen = ScreenWrapper()
     nfc = NFCWrapper()
 
     screen.setup()
     nfc.setup()
-
-    asyncio.run(user_wait_loop(nfc, screen))

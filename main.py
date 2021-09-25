@@ -1,19 +1,5 @@
-from src.dal.tables import engine, metadata
+import asyncio
 
-# from src.wrappers import NFCWrapper, ScreenWrapper
+from src.main import main
 
-metadata.create_all(engine)
-
-# screen = ScreenWrapper()
-# nfc = NFCWrapper()
-
-# screen.setup()
-# nfc.setup()
-
-# screen.write("Press the tag")
-
-# uid = None
-# while uid is None:
-#     uid = nfc.get_uid()
-
-# screen.write(uid if uid else "Found nothing")
+asyncio.run(main())
