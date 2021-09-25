@@ -1,4 +1,7 @@
-from src.wrappers import ScreenWrapper, NFCWrapper
+from src.dal.tables import engine, metadata
+from src.wrappers import NFCWrapper, ScreenWrapper
+
+metadata.create_all(engine)
 
 screen = ScreenWrapper()
 nfc = NFCWrapper()

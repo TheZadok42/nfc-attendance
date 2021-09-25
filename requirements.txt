@@ -6,3 +6,4 @@ spidev
 pydantic
 cysystemd
 serial
+SQLAlchemy

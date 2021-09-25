@@ -15,6 +15,9 @@ SCREEN_MAX_SPEED = 8000000
 
 MAX_LINE_CHARECTHERS = 20
 
+FONTS_DIR = consts.ROOT.joinpath("assets/fonts")
+TEXT_FONT_PATH = FONTS_DIR.joinpath("Minecraftia.ttf")
+
 
 class ScreenWrapper:
     def __init__(self):
@@ -54,7 +57,7 @@ class ScreenWrapper:
 
     @property
     def _text_font(self):
-        return ImageFont.truetype(str(consts.TEXT_FONT_PATH), 8)
+        return ImageFont.truetype(str(TEXT_FONT_PATH), 8)
 
     @staticmethod
     def _get_lines(text: str) -> List[str]:
