@@ -1,6 +1,6 @@
 import httpx
 
-from wrappers import NFCWrapper, ScreenWrapper
+from .wrappers import NFCWrapper, ScreenWrapper
 
 DAL_BASE_URL = 'http://192.168.1.105:8001'
 
