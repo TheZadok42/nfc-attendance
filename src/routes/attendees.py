@@ -19,7 +19,7 @@ def _get_nfc_tag(attendee: BaseAttendee):
     uid = nfc.get_uid()
     while uid is None:
         uid = nfc.get_uid()
-    screen.write(f'{attendee.first_name} nfc card\'s id is {uid}')
+    screen.write(f'{attendee.first_name} is registered')
     return uid
 
 
