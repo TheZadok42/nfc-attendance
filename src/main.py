@@ -24,8 +24,13 @@ async def user_wait_loop(nfc: NFCWrapper, screen: ScreenWrapper):
         screen.write('Press Your Card')
         uid = wait_for_card(nfc)
         screen.write('Registering')
-        await send_user_atendance(uid)
-        screen.write('Successfully Registered Attendance')
+        try:
+            await send_user_atendance(uid)
+        except httpx.HTTPStatusError as error:
+            screen.write('Failed to Register Attendance')
+            print(error.response.json())
+        else:
+            screen.write('Successfully Registered Attendance')
 
 
 async def main():
