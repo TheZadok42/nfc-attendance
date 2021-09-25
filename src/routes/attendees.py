@@ -19,7 +19,7 @@ nfc.setup()
 # 1. Better setup
 
 
-def _get_nfc_tag_uid():
+def _get_nfc_tag_uid() -> str:
     uid = nfc.get_uid()
     while uid is None:
         uid = nfc.get_uid()
