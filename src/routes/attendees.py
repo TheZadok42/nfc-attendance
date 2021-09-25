@@ -33,7 +33,7 @@ def _get_nfc_tag_record(uid: str) -> NFCCard:
         if card:
             return NFCCard.parse_obj(card)
         else:
-            result = connection.execute(nfc_cards.insert(uid=uid))
+            result = connection.execute(nfc_cards.insert().values(uid=uid))
             id = result.inserted_primary_key[0]
             return NFCCard(uid=uid, id=id)
 
@@ -85,7 +85,7 @@ async def get_attendees():
 
 @router.get('/attendees/nfc', response_model=Attendee)
 async def get_attendee_by_card():
-    screen.write('Press the atendee card')
+    screen.write('Press the atendee\'s card')
     uid = _get_nfc_tag_uid()
     card = _get_nfc_tag_record(uid)
     return _get_attendee_by_card(card)
@@ -98,7 +98,7 @@ async def deactivate_attendee():
     card = _get_nfc_tag_record(uid)
     attendee = _get_attendee_by_card(card)
     with engine.connect() as connection:
-        connection.execute(
-            attendees.update(attendees.c.id == attendee.id, active=False))
+        connection.execute(attendees.update().where(
+            attendees.c.id == attendee.id).values(active=False))
     attendee.active = False
     return attendee
