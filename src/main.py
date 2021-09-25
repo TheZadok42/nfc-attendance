@@ -2,6 +2,7 @@ import httpx
 
 from .wrappers import NFCWrapper, ScreenWrapper
 
+# TODO: remove prints
 DAL_BASE_URL = 'http://192.168.1.105:8001'
 
 
@@ -31,6 +32,9 @@ async def main():
     global RUNNING
     screen = ScreenWrapper()
     nfc = NFCWrapper()
-
+    print("Setting up")
     screen.setup()
     nfc.setup()
+
+    print("Running")
+    user_wait_loop(nfc, screen)
