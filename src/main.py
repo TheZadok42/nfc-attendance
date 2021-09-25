@@ -22,7 +22,7 @@ async def send_user_atendance(uid: str):
 async def user_wait_loop(nfc: NFCWrapper, screen: ScreenWrapper):
     while True:
         screen.write('Press Your Card')
-        uid = wait_for_card()
+        uid = wait_for_card(nfc)
         screen.write('Registering')
         await send_user_atendance(uid)
         screen.write('Successfully Registered Attendance')
