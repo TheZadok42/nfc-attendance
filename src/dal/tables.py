@@ -18,7 +18,7 @@ events = Table(
 nfc_cards = Table(
     'nfc_cards',
     metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('uid', String, primary_key=True, nullable=False),
 )
 
