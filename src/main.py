@@ -1,3 +1,5 @@
+import time
+
 import httpx
 
 from .wrappers import NFCWrapper, ScreenWrapper
@@ -31,6 +33,7 @@ async def user_wait_loop(nfc: NFCWrapper, screen: ScreenWrapper):
             print(error.response.json())
         else:
             screen.write('Successfully Registered Attendance')
+        time.sleep(1)
 
 
 async def main():
