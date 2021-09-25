@@ -32,9 +32,10 @@ async def main():
     global RUNNING
     screen = ScreenWrapper()
     nfc = NFCWrapper()
+
     print("Setting up")
     screen.setup()
     nfc.setup()
 
     print("Running")
-    user_wait_loop(nfc, screen)
+    await user_wait_loop(nfc, screen)
