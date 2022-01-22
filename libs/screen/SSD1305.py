@@ -1,10 +1,10 @@
 #coding=utf-8
 from __future__ import division
+
 import logging
 import time
 
-from . import SPI
-from . import GPIO
+from . import GPIO, SPI
 
 # Constants
 SSD1305_I2C_ADDRESS = 0x3C  # 011110+SA0+RW - 0x3C or 0x3D
@@ -48,6 +48,7 @@ class SSD1305Base(object):
     """Base class for SSD1305-based OLED displays.  Implementors should subclass
     and provide an implementation for the _initialize function.
     """
+
     def __init__(self,
                  width,
                  height,
@@ -216,6 +217,7 @@ class SSD1305Base(object):
 
 
 class SSD1305_128_32(SSD1305Base):
+
     def __init__(self,
                  rst,
                  dc=None,
@@ -234,31 +236,34 @@ class SSD1305_128_32(SSD1305Base):
 
     def _initialize(self):
         # 128x32 pixel specific initialization.
-        self.command(0xAE)  #--turn off oled panel
-        self.command(0x04)  #--turn off oled panel
-        self.command(0x10)  #--turn off oled panel
-        self.command(0x40)  #---set low column address
-        self.command(0x81)  #---set high column address
+        self.command(0xAE)  # --turn off oled panel
+        self.command(0x04)  # --turn off oled panel
+        self.command(0x10)  # --turn off oled panel
+        self.command(0x40)  # ---set low column address
+        self.command(0x81)  # ---set high column address
         self.command(
             0x80
-        )  #--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
-        self.command(0xA1)  #--set contrast control register
+        )  # --set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
+        self.command(0xA1)  # --set contrast control register
         self.command(0xA6)  # Set SEG Output Current Brightness
-        self.command(0xA8)  #--Set SEG/Column Mapping     0xa0×óÓÒ·´ÖÃ 0xa1Õý³£
-        self.command(0x1F)  #Set COM/Row Scan Direction   0xc0ÉÏÏÂ·´ÖÃ 0xc8Õý³£
-        self.command(0xC8)  #--set normal display
-        self.command(0xD3)  #--set multiplex ratio(1 to 64)
-        self.command(0x00)  #--1/64 duty
         self.command(
-            0xD5)  #-set display offset	Shift Mapping RAM Counter (0x00~0x3F)
-        self.command(0xF0)  #-not offset
+            0xA8)  # --Set SEG/Column Mapping     0xa0×óÓÒ·´ÖÃ 0xa1Õý³£
         self.command(
-            0xd8)  #--set display clock divide ratio/oscillator frequency
-        self.command(0x05)  #--set divide ratio, Set Clock as 100 Frames/Sec
-        self.command(0xD9)  #--set pre-charge period
-        self.command(0xC2)  #Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
-        self.command(0xDA)  #--set com pins hardware configuration
+            0x1F)  # Set COM/Row Scan Direction   0xc0ÉÏÏÂ·´ÖÃ 0xc8Õý³£
+        self.command(0xC8)  # --set normal display
+        self.command(0xD3)  # --set multiplex ratio(1 to 64)
+        self.command(0x00)  # --1/64 duty
+        self.command(
+            0xD5)  # -set display offset	Shift Mapping RAM Counter (0x00~0x3F)
+        self.command(0xF0)  # -not offset
+        self.command(
+            0xd8)  # --set display clock divide ratio/oscillator frequency
+        self.command(0x05)  # --set divide ratio, Set Clock as 100 Frames/Sec
+        self.command(0xD9)  # --set pre-charge period
+        self.command(
+            0xC2)  # Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
+        self.command(0xDA)  # --set com pins hardware configuration
         self.command(0x12)
-        self.command(0xDB)  #--set vcomh
-        self.command(0x08)  #Set VCOM Deselect Level
-        self.command(0xAF)  #-Set Page Addressing Mode (0x00/0x01/0x02)
+        self.command(0xDB)  # --set vcomh
+        self.command(0x08)  # Set VCOM Deselect Level
+        self.command(0xAF)  # -Set Page Addressing Mode (0x00/0x01/0x02)
