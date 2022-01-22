@@ -42,6 +42,7 @@ _SPI_READY = 0x01
 
 class SPIDevice:
     """Implements SPI device on spidev"""
+
     def __init__(self, cs=None):
         self.spi = spidev.SpiDev(0, 0)
         GPIO.setmode(GPIO.BCM)
@@ -98,6 +99,7 @@ class PN532_SPI(PN532):
     """Driver for the PN532 connected over SPI. Pass in a hardware SPI device
     & chip select digitalInOut pin. Optional IRQ pin (not used), reset pin and
     debugging output."""
+
     def __init__(self, cs=None, irq=None, reset=None, debug=False):
         """Create an instance of the PN532 class using SPI"""
         self.debug = debug

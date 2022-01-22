@@ -39,6 +39,7 @@ class BaseGPIO(object):
     """Base class for implementing simple digital IO for a platform.
     Implementors are expected to subclass from this and provide an implementation
     of the setup, output, and input functions."""
+
     def setup(self, pin, mode, pull_up_down=PUD_OFF):
         """Set the input or output mode for a specified pin.  Mode should be
         either OUT or IN."""
@@ -156,6 +157,7 @@ class BaseGPIO(object):
 
 class RPiGPIOAdapter(BaseGPIO):
     """GPIO implementation for the Raspberry Pi using the RPi.GPIO library."""
+
     def __init__(self, rpi_gpio, mode=None):
         self.rpi_gpio = rpi_gpio
         # Suppress warnings about GPIO in use.
@@ -261,6 +263,7 @@ class AdafruitBBIOAdapter(BaseGPIO):
     """GPIO implementation for the Beaglebone Black using the Adafruit_BBIO
     library.
     """
+
     def __init__(self, bbio_gpio):
         self.bbio_gpio = bbio_gpio
         # Define mapping of Adafruit GPIO library constants to RPi.GPIO constants.
@@ -358,6 +361,7 @@ class AdafruitBBIOAdapter(BaseGPIO):
 
 class AdafruitMinnowAdapter(BaseGPIO):
     """GPIO implementation for the Minnowboard + MAX using the mraa library"""
+
     def __init__(self, mraa_gpio):
         self.mraa_gpio = mraa_gpio
         # Define mapping of Adafruit GPIO library constants to mraa constants

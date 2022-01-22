@@ -45,6 +45,7 @@ I2C_SLAVE = 1795
 
 class I2CDevice:
     """Implements I2C device on ioctl"""
+
     def __init__(self, channel, addr):
         self.addr = addr
         self.i2c = os.open('/dev/i2c-%d' % channel, os.O_RDWR)
@@ -64,6 +65,7 @@ class I2CDevice:
 
 class PN532_I2C(PN532):
     """Driver for the PN532 connected over I2C."""
+
     def __init__(self, irq=None, reset=None, req=None, debug=False):
         """Create an instance of the PN532 class using I2C. Note that PN532
         uses clock stretching. Optional IRQ pin (not used),

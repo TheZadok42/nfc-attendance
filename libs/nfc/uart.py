@@ -42,6 +42,7 @@ class PN532_UART(PN532):
     """Driver for the PN532 connected over UART. Pass in a hardware UART device.
     Optional IRQ pin (not used), reset pin and debugging output. 
     """
+
     def __init__(self,
                  dev=DEV_SERIAL,
                  baudrate=BAUD_RATE,

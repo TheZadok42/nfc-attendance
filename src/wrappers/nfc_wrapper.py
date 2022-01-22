@@ -6,6 +6,7 @@ from libs.nfc import PN532_SPI
 
 
 class NFCWrapper:
+
     def __init__(self):
         self._connector = None
 

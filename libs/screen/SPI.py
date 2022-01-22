@@ -30,6 +30,7 @@ LSBFIRST = 1
 
 class SpiDev(object):
     """Hardware-based SPI implementation using the spidev interface."""
+
     def __init__(self, port, device, max_speed_hz=500000):
         """Initialize an SPI device using the SPIdev interface.  Port and device
         identify the device, for example the device /dev/spidev1.0 would be port
@@ -96,6 +97,7 @@ class SpiDev(object):
 
 class SpiDevMraa(object):
     """Hardware SPI implementation with the mraa library on Minnowboard"""
+
     def __init__(self, port, device, max_speed_hz=500000):
         import mraa
         self._device = mraa.Spi(0)
@@ -141,6 +143,7 @@ class SpiDevMraa(object):
 
 class BitBang(object):
     """Software-based implementation of the SPI protocol over GPIO pins."""
+
     def __init__(self, gpio, sclk, mosi=None, miso=None, ss=None):
         """Initialize bit bang (or software) based SPI.  Must provide a BaseGPIO
         class, the SPI clock, and optionally MOSI, MISO, and SS (slave select)

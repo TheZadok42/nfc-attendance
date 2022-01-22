@@ -173,6 +173,7 @@ PN532_ERRORS = {
 
 class PN532Error(Exception):
     """PN532 error code"""
+
     def __init__(self, err):
         Exception.__init__(self)
         self.err = err
@@ -186,6 +187,7 @@ class BusyError(Exception):
 
 class PN532:
     """PN532 driver base, must be extended for I2C/SPI/UART interfacing"""
+
     def __init__(self, *, debug=False, reset=None):
         """Create an instance of the PN532 class
         """

@@ -20,6 +20,7 @@ TEXT_FONT_PATH = FONTS_DIR.joinpath("Minecraftia.ttf")
 
 
 class ScreenWrapper:
+
     def __init__(self):
         self._connector = None
         self._width = None
