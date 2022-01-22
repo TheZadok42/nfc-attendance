@@ -1,0 +1,7 @@
+httpx
+pillow
+numpy
+RPi.GPIO
+spidev
+cysystemd
+serial
