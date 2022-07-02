@@ -17,7 +17,7 @@ def wait_for_card(nfc: NFCWrapper):
 async def send_user_attendance(uid: str):
     async with httpx.AsyncClient(base_url=DAL_BASE_URL) as client:
         response = await client.post('/attendance/',
-                                     params=dict(nfc_card_uid=uid))
+                                     json=dict(nfc_card_uid=uid))
         response.raise_for_status()
 
 
